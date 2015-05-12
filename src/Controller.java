@@ -1,4 +1,4 @@
-import GUI.MainUI;
+import GUI.*;
 
 public class Controller {
 
@@ -6,6 +6,6 @@ public class Controller {
 	 * @param
 	 */
 	public Controller(){
-		MainUI mainUI = new MainUI();
+		UIController uiC = new UIController();
 	}
 }
