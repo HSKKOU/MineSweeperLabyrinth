@@ -7,8 +7,12 @@ import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 
+import Inputs.InputManager;
+
 public class UIController extends JFrame {
 	private static final long serialVersionUID = 1L;
+	
+	private InputManager IM;
 
 	public UIController(){
 		super();
@@ -28,5 +32,13 @@ public class UIController extends JFrame {
 		getContentPane().add(_nextPanel);
 		this.setVisible(true);
 		requestFocus();
+	}
+	
+	public void setInputManage(InputManager _IM){
+		this.IM = _IM;
+	}
+	
+	public InputManager getInputManager(){
+		return this.IM;
 	}
 }

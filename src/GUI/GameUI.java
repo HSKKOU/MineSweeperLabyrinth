@@ -28,8 +28,6 @@ public class GameUI extends CommonJPanel implements Runnable {
 	private int mGameFrameSize[];
 	private int mPaddings[] = {0, 0};
 	
-	private InputManager IM;
-	
 	public GameUI(UIController parentFrame, int level){
 		super(parentFrame);
 		this.setLayout(new FlowLayout());
@@ -67,17 +65,14 @@ public class GameUI extends CommonJPanel implements Runnable {
 	
 	// 更新処理
 	private void update(){
-		System.out.println(
-				"方向:" + IM.getDirection()
-				+ ", 破壊:" + IM.IsDestroy()
-				+ ", 旗:" + IM.IsCheck()
-		);
+		System.out.println("方向:" + IM.getDirection() + ", 破壊:" + IM.IsDestroy() + ", 旗:" + IM.IsCheck());
+		
 		repaint();
 	}
 
 	// Thread内処理
 	public void run(){
-		IM = new InputManager(parentFrame);
+		IM = parentFrame.getInputManager();
 		long error = 0;
 		long idealSleep = (1000 << 16) / FRAME_RATE;
 		long prevTime = 0;

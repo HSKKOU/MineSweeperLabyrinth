@@ -19,7 +19,7 @@ public class InputManager implements KeyListener {
 	private int CHECK = 5;
 	private static int KEY_NUMS = 6;
 	private boolean mKey[] = new boolean[KEY_NUMS];
-	
+		
 	public InputManager(UIController _parentFrame) {
 		_parentFrame.addKeyListener(this);
 	}
