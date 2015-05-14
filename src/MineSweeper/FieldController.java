@@ -1,8 +1,13 @@
 package MineSweeper;
 
-public class FieldController {
+import static constants.Constants.*;
 
-	public FieldController(){
-		
+public class FieldController {
+	
+	private Cell cells[][];
+
+	public FieldController(int _level){
+		cells = new Cell[LEVEL_CELL_SIZE[_level][W]][LEVEL_CELL_SIZE[_level][H]];
 	}
+	
 }
