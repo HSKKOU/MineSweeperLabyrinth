@@ -8,7 +8,8 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 
 public class UIController extends JFrame {
-	
+	private static final long serialVersionUID = 1L;
+
 	public UIController(){
 		super();
 		this.setTitle("MainSweeper Labyrinth");
@@ -26,5 +27,6 @@ public class UIController extends JFrame {
 		getContentPane().removeAll();
 		getContentPane().add(_nextPanel);
 		this.setVisible(true);
+		requestFocus();
 	}
 }
