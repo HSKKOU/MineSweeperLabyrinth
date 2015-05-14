@@ -10,10 +10,13 @@ import java.awt.Rectangle;
 import javax.swing.JPanel;
 
 import Inputs.InputManager;
+
+import MineSweeper.*;
+
 import static constants.Constants.*;
 
+// ゲーム画面
 public class GameUI extends CommonJPanel implements Runnable {
-	// serialID
 	private static final long serialVersionUID = 1L;
 	
 	// FPS
@@ -25,17 +28,23 @@ public class GameUI extends CommonJPanel implements Runnable {
 	private JPanel mGameScreen;
 	private JPanel mStateScreen;
 	
+	// 画面サイズ
 	private int mGameFrameSize[];
 	private int mPaddings[] = {0, 0};
+	
+	// マインスイーパーのフィールド管理クラス
+	private FieldController FC;
 	
 	public GameUI(UIController parentFrame, int level){
 		super(parentFrame);
 		this.setLayout(new FlowLayout());
 		
+		// フィールドおよびプレイヤーのステータス表示パネル
 		mStateScreen = new JPanel();
 		mStateScreen.setPreferredSize(new Dimension(FRAME_WIDTH, 100));
 		this.add(mStateScreen);
 		
+		// マインスイーパーマス表示パネル
 		mGameScreen = new JPanel();
 		mGameScreen.setPreferredSize(new Dimension(GAME_FRAME_WIDTH, GAME_FRAME_HEIGHT));
 		this.add(mGameScreen);
@@ -43,6 +52,8 @@ public class GameUI extends CommonJPanel implements Runnable {
 		mGameFrameSize = LEVEL_CELL_SIZE[level];
 		mPaddings[W] = (GAME_FRAME_WIDTH - CELL_WIDTH * mGameFrameSize[W]) / 2;
 		mPaddings[H] = (GAME_FRAME_HEIGHT - CELL_HEIGHT * mGameFrameSize[H]) / 2;
+		
+		FC = new FieldController(level);
 		
 		Thread gameThread = new Thread(this);
 		gameThread.start();
@@ -52,9 +63,9 @@ public class GameUI extends CommonJPanel implements Runnable {
 	public void paint(Graphics g){
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D)mGameScreen.getGraphics();
-		for(int i=0; i<mGameFrameSize[W]; i++){
-			for(int j=0; j<mGameFrameSize[H]; j++){
-				Rectangle rect = new Rectangle(i*CELL_WIDTH + mPaddings[W], j*CELL_HEIGHT + mPaddings[H], CELL_WIDTH, CELL_HEIGHT);
+		for(int i=0; i<FC.getHeight(); i++){
+			for(int j=0; j<FC.getWidth(); j++){
+				Rectangle rect = new Rectangle(j*CELL_WIDTH + mPaddings[W], i*CELL_HEIGHT + mPaddings[H], CELL_WIDTH, CELL_HEIGHT);
 				g2.setColor(Color.BLACK);
 				g2.draw(rect);			
 			}
@@ -70,7 +81,7 @@ public class GameUI extends CommonJPanel implements Runnable {
 		repaint();
 	}
 
-	// Thread内処理
+	// Thread内処理（{FRAME_RATE}FPSで更新）
 	public void run(){
 		IM = parentFrame.getInputManager();
 		long error = 0;

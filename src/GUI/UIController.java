@@ -9,9 +9,11 @@ import javax.swing.JFrame;
 
 import Inputs.InputManager;
 
+// JFrame with UI管理
 public class UIController extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
+	//入力管理
 	private InputManager IM;
 
 	public UIController(){
@@ -27,6 +29,7 @@ public class UIController extends JFrame {
 		changePanel(new TitleUI(this));
 	}
 	
+	// 画面パネル変更
 	public void changePanel(CommonJPanel _nextPanel){
 		getContentPane().removeAll();
 		getContentPane().add(_nextPanel);
@@ -34,11 +37,6 @@ public class UIController extends JFrame {
 		requestFocus();
 	}
 	
-	public void setInputManage(InputManager _IM){
-		this.IM = _IM;
-	}
-	
-	public InputManager getInputManager(){
-		return this.IM;
-	}
+	public void setInputManage(InputManager _IM){this.IM = _IM;}
+	public InputManager getInputManager(){return this.IM;}
 }

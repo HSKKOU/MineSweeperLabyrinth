@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+// タイトル画面
 public class TitleUI extends CommonJPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +22,7 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		
 		this.setLayout(new FlowLayout());
 		
+		// タイトルラベル
 		JLabel titleLabel = new JLabel("MineSweeper Labyrinth");
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 40));
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -29,6 +31,7 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		titlePanel.add(titleLabel);
 		this.add(titlePanel);
 		
+		// ゲームレベル選択ボタン
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setPreferredSize(new Dimension(400, 150));
 		buttonsPanel.setLayout(new GridLayout(3, 1));
@@ -41,9 +44,14 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		this.add(buttonsPanel);
 	}
 
+	// ゲームレベル選択ボタンのActionCommandを取得
+	// そのレベルを渡してゲーム画面に遷移
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		GameUI gameUI = new GameUI(parentFrame, Integer.parseInt(e.getActionCommand()));
-		parentFrame.changePanel(gameUI);
+		try{
+			GameUI gameUI = new GameUI(parentFrame, Integer.parseInt(e.getActionCommand()));
+			parentFrame.changePanel(gameUI);
+		}catch(Exception _e){
+		}
 	}
 }
