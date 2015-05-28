@@ -4,8 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import GUI.*;
-
-import static constants.Constants.*;
+import static global.Constants.*;
 
 // 入力管理
 public class InputManager implements KeyListener {

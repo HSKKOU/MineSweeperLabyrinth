@@ -1,6 +1,6 @@
 package GUI;
 
-import static constants.Constants.*;
+import static global.Constants.*;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

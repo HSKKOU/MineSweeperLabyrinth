@@ -1,6 +1,6 @@
 package GUI;
 
-import static constants.Constants.*;
+import static global.Constants.*;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -36,9 +36,9 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		buttonsPanel.setPreferredSize(new Dimension(400, 150));
 		buttonsPanel.setLayout(new GridLayout(3, 1));
 		for(int i=0; i<3; i++){
-			JButton goGameButton = new JButton("LEVEL" + (i+1));
+			JButton goGameButton = new JButton(LEVELstr + (i+1));
 			goGameButton.addActionListener(this);
-			goGameButton.setActionCommand("" + i);
+			goGameButton.setActionCommand(LEVELstr + (i+1));
 			buttonsPanel.add(goGameButton);
 		}
 		this.add(buttonsPanel);
@@ -48,10 +48,7 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 	// そのレベルを渡してゲーム画面に遷移
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		try{
-			GameUI gameUI = new GameUI(parentFrame, Integer.parseInt(e.getActionCommand()));
-			parentFrame.changePanel(gameUI);
-		}catch(Exception _e){
-		}
+		GameUI gameUI = new GameUI(parentFrame, e.getActionCommand());
+		parentFrame.changePanel(gameUI);
 	}
 }

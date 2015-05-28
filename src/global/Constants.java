@@ -1,4 +1,4 @@
-package constants;
+package global;
 
 import java.awt.event.KeyEvent;
 
@@ -18,17 +18,15 @@ public class Constants {
 	public static int CELL_WIDTH = 30;
 	public static int CELL_HEIGHT = 30;
 	
-	// ゲームレベル
-	public static int LEVEL1 = 0;
-	public static int LEVEL2 = 1;
-	public static int LEVEL3 = 2;
+	// マスの文字padding
+	public static double CELL_STR_PADDING_H = CELL_WIDTH / 3.3;
+	public static double CELL_STR_PADDING_V = CELL_HEIGHT / 1.3;
 	
-	// 各ゲームレベルの縦横マス個数
-	public static int LEVEL_CELL_SIZE[][] = {
-		{7,5},
-		{12,8},
-		{20,15}
-	};
+	// ゲームレベル
+	public static String LEVELstr = "LEVEL";
+	public static String LEVEL1 = LEVELstr + 1;
+	public static String LEVEL2 = LEVELstr + 2;
+	public static String LEVEL3 = LEVELstr + 3;
 	
 	// 縦、横の定数化
 	public static int W = 0;
@@ -43,4 +41,24 @@ public class Constants {
 	public static final int KEY_ACT_DESTROY = KeyEvent.VK_SPACE;
 	public static final int KEY_ACT_CHECK = KeyEvent.VK_SHIFT;
 
+	public static String KEY2STR(int _KEY){
+		String str = "NONE";
+		switch(_KEY){
+			case KEY_DIR_UP:
+				str = "UP";
+				break;
+			case KEY_DIR_RIGHT:
+				str = "RIGHT";
+				break;
+			case KEY_DIR_DOWN:
+				str = "DOWN";
+				break;
+			case KEY_DIR_LEFT:
+				str = "LEFT";
+				break;
+			default: break;
+		}
+		
+		return str;
+	}
 }
