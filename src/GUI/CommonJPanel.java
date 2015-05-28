@@ -7,15 +7,11 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import Inputs.InputManager;
-
 // 各画面パネルの共通クラス
 public abstract class CommonJPanel extends JPanel {
-
+	private static final long serialVersionUID = 1L;
 	// 親JFrame
 	protected UIController parentFrame;
-	// 入力管理クラス
-	protected InputManager IM;
 	
 	public CommonJPanel(UIController _parentFrame){
 		this.parentFrame = _parentFrame;

@@ -27,6 +27,7 @@ public class FieldController {
 		
 		LabyState[][] labyrinth = Labyrinth.Labyrinth.createLabyrinth(_ls);
 		
+		// Labyrinthが生成した迷路をもとに各マスを生成
 		for(int i=0; i<labyrinth.length; i++){
 			for(int j=0; j<labyrinth[i].length; j++){
 				cells[i][j] = CellFactory.createCell(labyrinth[i][j]);
@@ -37,6 +38,7 @@ public class FieldController {
 			}
 		}
 		
+		// 生成したマスをもとに各マスの周囲にある地雷の数を計算
 		for(int i=0; i<labyrinth.length; i++){
 			for(int j=0; j<labyrinth[i].length; j++){
 				if(!cells[i][j].hasMine()){continue;}
@@ -44,10 +46,11 @@ public class FieldController {
 			}
 		}
 		
-		printField(cells);
-		printMinesNum(cells);
+//		printField(cells);
+//		printMinesNum(cells);
 	}
 	
+	// (x, y)の座標にあるマスの周囲８マスにある地雷数を計算
 	private void inclementAroundMines(int x, int y){
 		for(int dy=-1; dy<=1; dy++){
 			for(int dx=-1; dx<=1; dx++){
@@ -60,14 +63,12 @@ public class FieldController {
 		}
 	}
 	
-	public CellState getCellState(int x, int y){
-		return cells[y][x].getState();
-	}
+	// (x, y)にあるマスの状態を取得
+	public CellState getCellState(int x, int y){return cells[y][x].getState();}
+	// (x, y)にあるマスの周囲にある地雷数を取得
+	public int getCellAroundMines(int x, int y){return cells[y][x].getAroundMines();}
 	
-	public int getCellAroundMines(int x, int y){
-		return cells[y][x].getAroundMines();
-	}
-	
+	// Playerの移動（移動可能かどうかを返す）
 	public boolean movePlayer(int _direction){
 		Point delta = direction2delta(_direction);
 		
@@ -85,6 +86,7 @@ public class FieldController {
 		return false;
 	}
 	
+	// プレイヤーが破壊しようとするマスに地雷があるか
 	public boolean hasBomb(int _direction){
 		Point delta = direction2delta(_direction);
 		
@@ -97,6 +99,7 @@ public class FieldController {
 		return false;
 	}
 	
+	// プレイヤーが破壊しようとするマスを破壊
 	public void destroyCell(int _direction){
 		Point delta = direction2delta(_direction);
 		
@@ -107,6 +110,7 @@ public class FieldController {
 		}catch(Exception e){}
 	}
 
+	// プレイヤーが旗を立てようとするマスに旗を立てる
 	public void checkCell(int _direction){
 		Point delta = direction2delta(_direction);
 		
@@ -117,6 +121,7 @@ public class FieldController {
 		}catch(Exception e){}
 	}
 
+	// 方向を示すKeyEventから(dx, dy)の２次元ベクトルを生成する
 	private Point direction2delta(int _direction){
 		Point delta = Point.zero();
 		if(_direction == KEY_DIR_NONE){return delta;}
@@ -130,9 +135,12 @@ public class FieldController {
 		return delta;
 	}
 	
-	public boolean reachGoal(){
-		return cells[playerLoc.y][playerLoc.x].isStandingGoal();
-	}
+	// プレイヤーがゴールに辿り着いたかどうか
+	public boolean reachGoal(){return cells[playerLoc.y][playerLoc.x].isStandingGoal();}
+	
+	// フィールドサイズ取得
+	public int getWidth(){return mFieldWidth;}
+	public int getHeight(){return mFieldHeight;}
 	
 	// デバッグ用Mine表示
 	private static void printField(Cell[][] cs){
@@ -157,7 +165,6 @@ public class FieldController {
 		
 		System.out.println("------------------------------------------------------------");
 	}
-	
 	// デバッグ用Mine数表示
 	private static void printMinesNum(Cell[][] cs){
 		System.out.println("-----------------------Mine Sweeper-------------------------");
@@ -171,8 +178,4 @@ public class FieldController {
 		
 		System.out.println("------------------------------------------------------------");
 	}
-	
-	// フィールドサイズ取得
-	public int getWidth(){return mFieldWidth;}
-	public int getHeight(){return mFieldHeight;}
 }

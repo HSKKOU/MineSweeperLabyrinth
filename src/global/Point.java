@@ -1,5 +1,6 @@
 package global;
 
+// ２次元ベクトル
 public class Point {
 	public int x;
 	public int y;
@@ -9,11 +10,9 @@ public class Point {
 		this.y = _y;
 	}
 	
-	public Point clone(){
-		return new Point(this.x, this.y);
-	}
+	// 複製
+	public Point clone(){return new Point(this.x, this.y);}
 	
-	public static Point zero(){
-		return new Point(0, 0);
-	}
+	// ゼロベクトル
+	public static Point zero(){return new Point(0, 0);}
 }

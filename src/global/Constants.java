@@ -41,24 +41,14 @@ public class Constants {
 	public static final int KEY_ACT_DESTROY = KeyEvent.VK_SPACE;
 	public static final int KEY_ACT_CHECK = KeyEvent.VK_SHIFT;
 
+	// KeyAction -> MeaningString
 	public static String KEY2STR(int _KEY){
-		String str = "NONE";
 		switch(_KEY){
-			case KEY_DIR_UP:
-				str = "UP";
-				break;
-			case KEY_DIR_RIGHT:
-				str = "RIGHT";
-				break;
-			case KEY_DIR_DOWN:
-				str = "DOWN";
-				break;
-			case KEY_DIR_LEFT:
-				str = "LEFT";
-				break;
-			default: break;
+			case KEY_DIR_UP: return "UP";
+			case KEY_DIR_RIGHT: return "RIGHT";
+			case KEY_DIR_DOWN: return "DOWN";
+			case KEY_DIR_LEFT: return "LEFT";
+			default: return "NONE";
 		}
-		
-		return str;
 	}
 }

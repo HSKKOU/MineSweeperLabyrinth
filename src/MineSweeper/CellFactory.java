@@ -6,7 +6,6 @@ import Labyrinth.Labyrinth.LabyState;
 import MineSweeper.Cell.CellState;
 
 public class CellFactory {
-
 	// 地雷生成確率
 	private static final int PROB_MINE = 30;
 	

@@ -14,9 +14,7 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
-import Inputs.InputManager;
 import Level.LevelFactory;
 import Level.LevelState;
 import MineSweeper.*;
@@ -59,23 +57,24 @@ public class GameUI extends CommonJPanel implements Runnable {
 		mStateScreen.setPreferredSize(new Dimension(FRAME_WIDTH, 100));
 		this.add(mStateScreen);
 		
-		// マスラベルの初期化
-		
 		// マインスイーパーマス表示パネル
 		mGameScreen = new JPanel();
 		mGameScreen.setPreferredSize(new Dimension(GAME_FRAME_WIDTH, GAME_FRAME_HEIGHT));
 		this.add(mGameScreen);
 		
+		// タイトルで選んだレベルの取得
 		LevelState ls = LevelFactory.createLevel(_level);
-		
 		assert ls != null : "LevelState = null";
 		
+		// マインスイーパーマス表示パネル内の表示Padding
 		mPaddingsW = (GAME_FRAME_WIDTH - CELL_WIDTH * ls.gameCellSizeW) / 2;
 		mPaddingsH = (GAME_FRAME_HEIGHT - CELL_HEIGHT * ls.gameCellSizeH) / 2;
 		
+		// 各管理クラスの初期化
 		FC = new FieldController(ls);
 		PC = new PlayerController();
-				
+		
+		// ゲームスレッドの作成、開始
 		Thread gameThread = new Thread(this);
 		running = true;
 		gameThread.start();
@@ -88,10 +87,10 @@ public class GameUI extends CommonJPanel implements Runnable {
 		Graphics2D g2 = (Graphics2D)mGameScreen.getGraphics();
 		AffineTransform af = new AffineTransform();
 		int maxHeight = FC.getHeight()*CELL_HEIGHT + mPaddingsH;
-		Font cellFont = new Font("Arial", Font.BOLD, 20);
 		int angle = 0;
-		Color fillColor;
-		Color strColor;
+		Font cellFont = new Font("Arial", Font.BOLD, 20);
+		Color fillColor, strColor;
+		String cellStr = "";
 		for(int i=0; i<FC.getHeight(); i++){
 			for(int j=0; j<FC.getWidth(); j++){
 				af.setToRotation(0);
@@ -99,8 +98,8 @@ public class GameUI extends CommonJPanel implements Runnable {
 				angle = 0;
 				fillColor = Color.WHITE;
 				strColor = Color.BLACK;
+				cellStr = "";
 				
-				String cellStr = "";
 				CellState cs = FC.getCellState(j, i);
 				if(cs == CellState.Normal){fillColor = Color.GRAY;}
 				else if(cs == CellState.Checked){cellStr = "C";fillColor = Color.YELLOW;}
@@ -121,10 +120,16 @@ public class GameUI extends CommonJPanel implements Runnable {
 
 				int ox = j*CELL_WIDTH + mPaddingsW, oy = maxHeight - (i+1)*CELL_HEIGHT;
 				Rectangle rect = new Rectangle(ox, oy, CELL_WIDTH, CELL_HEIGHT);
+
+				// マスの中を塗る
 				g2.setColor(fillColor);
 				g2.fill(rect);
+				
+				// マスの枠を描く
 				g2.setColor(Color.BLACK);
 				g2.draw(rect);
+				
+				// マスに文字を書く
 				af.setToRotation(Math.PI / 180 * angle, ox + CELL_WIDTH/2, oy + CELL_HEIGHT/2);
 				g2.setTransform(af);
 				g2.setFont(cellFont);
@@ -147,17 +152,14 @@ public class GameUI extends CommonJPanel implements Runnable {
 		// Player移動処理
 		if(pDir != KEY_DIR_NONE){
 //			System.out.println("方向:" + KEY2STR(pDir));
-			if(!PC.isChangeForward(pDir)){
-				FC.movePlayer(pDir);
-			}
+			if(!PC.isChangeForward(pDir)){FC.movePlayer(pDir);}
 			if(FC.reachGoal()){gameClear();}
 		}
 		
 		if(pIsDes){
 //			System.out.println("破壊！");
-			if(FC.hasBomb(PC.getForward())){
-				gameOver();
-			}else{FC.destroyCell(PC.getForward());}
+			if(FC.hasBomb(PC.getForward())){gameOver();}
+			else{FC.destroyCell(PC.getForward());}
 		}else if(pIsChe){
 //			System.out.println("旗！");
 			FC.checkCell(PC.getForward());
@@ -173,8 +175,6 @@ public class GameUI extends CommonJPanel implements Runnable {
 		long prevTime = 0;
 		long currentTime = System.currentTimeMillis() << 16;
 		long sleepTime = 0;
-		IM = parentFrame.getInputManager();
-		PC.setInputManager(IM);
 		while(running){
 			prevTime = currentTime;
 			
