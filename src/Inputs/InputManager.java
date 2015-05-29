@@ -4,26 +4,38 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import GUI.*;
+import static global.Constants.*;
 
-import static constants.Constants.*;
-
+// 入力管理
 public class InputManager implements KeyListener {
-
+	// 最近入力されている方向キー
 	private int mCurrentDirection = KEY_DIR_NONE;
 	
-	private int UP = 0;
-	private int RIGHT = 1;
-	private int DOWN = 2;
-	private int LEFT = 3;
-	private int DESTROY = 4;
-	private int CHECK = 5;
+	// 方向・アクション定数
+	private int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3, DESTROY = 4, CHECK = 5;
 	private static int KEY_NUMS = 6;
+	// キー入力フラグの配列（最大２つtrueになりえる）
 	private boolean mKey[] = new boolean[KEY_NUMS];
 	
-	public InputManager(UIController _parentFrame) {
-		_parentFrame.addKeyListener(this);
+	// シングルトン
+	private static InputManager IM;
+
+	// リスナー登録するJFrame
+	private static UIController parentFrame; 
+		
+	private InputManager(){}
+	
+	public static InputManager getInstance(){
+		if(IM == null){IM = new InputManager();}
+		return IM;
 	}
 	
+	public void setFrame(UIController _parentFrame) {
+		parentFrame = _parentFrame;
+		parentFrame.addKeyListener(this);
+	}
+	
+	@Override
 	public void keyPressed(KeyEvent _e) {
 		int pressedNum = 0;
 		for(int i=0; i<KEY_NUMS; i++){
@@ -61,6 +73,7 @@ public class InputManager implements KeyListener {
 		}
 	}
 	
+	@Override
 	public void keyReleased(KeyEvent _e) {
 		int keyCode = _e.getKeyCode();
 		switch(keyCode){
@@ -91,9 +104,10 @@ public class InputManager implements KeyListener {
 		}
 	}
 	
-	public void keyTyped(KeyEvent e) {
-	}
+	@Override
+	public void keyTyped(KeyEvent e) {}
 	
+	// 現在入力されている方向キーを選別
 	private int getPressedDirectionKey(){
 		if(mKey[UP]){return KEY_DIR_UP;}
 		else if(mKey[RIGHT]){return KEY_DIR_RIGHT;}
@@ -102,15 +116,10 @@ public class InputManager implements KeyListener {
 		else{return KEY_DIR_NONE;}
 	}
 	
-	public int getDirection(){
-		return mCurrentDirection;
-	}
-	
-	public boolean IsDestroy(){
-		return mKey[DESTROY];
-	}
-	
-	public boolean IsCheck(){
-		return mKey[CHECK];
-	}
+	// 現在入力されている方向キー取得
+	public int getDirection(){return mCurrentDirection;}
+	// マス破壊キーの入力取得
+	public boolean IsDestroy(){return mKey[DESTROY];}
+	// 旗キーの入力取得
+	public boolean IsCheck(){return mKey[CHECK];}
 }

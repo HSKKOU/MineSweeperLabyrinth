@@ -1,6 +1,6 @@
 package GUI;
 
-import static constants.Constants.*;
+import static global.Constants.*;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+// タイトル画面
 public class TitleUI extends CommonJPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
@@ -21,6 +22,7 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		
 		this.setLayout(new FlowLayout());
 		
+		// タイトルラベル
 		JLabel titleLabel = new JLabel("MineSweeper Labyrinth");
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 40));
 		titleLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -29,21 +31,24 @@ public class TitleUI extends CommonJPanel implements ActionListener {
 		titlePanel.add(titleLabel);
 		this.add(titlePanel);
 		
+		// ゲームレベル選択ボタン
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setPreferredSize(new Dimension(400, 150));
 		buttonsPanel.setLayout(new GridLayout(3, 1));
 		for(int i=0; i<3; i++){
-			JButton goGameButton = new JButton("LEVEL" + (i+1));
+			JButton goGameButton = new JButton(LEVELstr + (i+1));
 			goGameButton.addActionListener(this);
-			goGameButton.setActionCommand("" + i);
+			goGameButton.setActionCommand(LEVELstr + (i+1));
 			buttonsPanel.add(goGameButton);
 		}
 		this.add(buttonsPanel);
 	}
 
+	// ゲームレベル選択ボタンのActionCommandを取得
+	// そのレベルを渡してゲーム画面に遷移
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		GameUI gameUI = new GameUI(parentFrame, Integer.parseInt(e.getActionCommand()));
+		GameUI gameUI = new GameUI(parentFrame, e.getActionCommand());
 		parentFrame.changePanel(gameUI);
 	}
 }

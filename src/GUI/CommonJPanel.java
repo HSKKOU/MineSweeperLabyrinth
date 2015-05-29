@@ -1,15 +1,16 @@
 package GUI;
 
-import static constants.Constants.*;
+import static global.Constants.*;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+// 各画面パネルの共通クラス
 public abstract class CommonJPanel extends JPanel {
-
+	private static final long serialVersionUID = 1L;
+	// 親JFrame
 	protected UIController parentFrame;
 	
 	public CommonJPanel(UIController _parentFrame){
